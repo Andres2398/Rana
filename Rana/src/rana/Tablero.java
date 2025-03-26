@@ -30,15 +30,16 @@ public class Tablero {
 	public boolean caza(int x, int y) {
 
 		if (estanque[x][y] == true) {
-			return true;
-
-		} else {
-			if (comprobarSiSalta(x, y)) {
-
-			}
+			
 			return false;
 
+		} else if (comprobarSiSalta(x, y) == true) {
+			System.out.println("Has estado cerca, la rana ha saltado");
+			
+
 		}
+		return true;
+
 	}
 
 	private boolean comprobarSiSalta(int x, int y) {
@@ -46,40 +47,50 @@ public class Tablero {
 		int rana[] = new int[2];
 		for (int i = 0; i < estanque.length; i++) {
 			for (int j = 0; j < estanque.length; j++) {
-				if (estanque[i][j] == true)
+				if (estanque[i][j] == true) {
 					rana[0] = i;
-				rana[1] = j;
+					rana[1] = j;
+
+				}
 			}
+
+		}
+		if ((x == rana[0] && (y + 1 == rana[1] || y - 1 == rana[1]))) {
+			posicionarRana();
+			return true;
 		}
 
-		if ((x == rana[0] && (y + 1 == rana[1] || y - 1 == rana[1])))
+		else if ((y == rana[1] && (x + 1 == rana[0] || x - 1 == rana[0]))) {
 			posicionarRana();
-		else if ((y == rana[1] && (x + 1 == rana[0] || x - 1 == rana[0])))
+			return true;
+		} else if ((y + 1 == rana[1] || y - 1 == rana[1]) && (x + 1 == rana[0] || x - 1 == rana[0])) {
 			posicionarRana();
-		else if ((y + 1 == rana[1] || y - 1 == rana[1]) && (x + 1 == rana[0] || x - 1 == rana[0]))
-			posicionarRana();
-		else if (x == rana[0] && y == rana[1])
+			return true;
+		} else
 			return false;
 
-		return true;
 	}
 
 	@Override
 	public String toString() {
 		String representar = "";
-		representar += "   0 1 2 3 4\n";
+		representar += "   0  1  2  3  4\n";
 		for (int i = 0; i < estanque.length; i++) {
 			for (int j = 0; j < estanque.length; j++) {
-				if (estanque[i][j] == true) {
+				if (estanque[i][j] == true && j==0) {
+					representar += i + " [r]";
+				}
+				else if (estanque[i][j] == true) {
 					representar += "[r]";
 				}
+				else if (j==0) {
+					representar += i +" [ ]";
+				}
 
-				else if (j == 0) {
-					representar += i + " ";
-				} else
-					representar += "[]";
+				else
+					representar += "[ ]";
 			}
-			representar += "[]\n";
+			representar += "\n";
 		}
 		return representar;
 
